@@ -11,7 +11,7 @@ from django.contrib.auth import (
 from django.contrib.auth.models import User
 import string,random
 from .models import Location, Hotel, Accomodation
-from dashboard.forms import HotelForm
+from dashboard.forms import HotelForm, AccomodationForm
 # Create your views here.
 
 def dashboard(request):
@@ -45,3 +45,21 @@ def add(request):
 	    form = HotelForm()
 	    args = {'form': form}
 	    return render(request, 'dashboard/add.html', args)
+
+
+def packages(request):
+	if request.method == 'POST':
+		form = AccomodationForm(request.POST, request.FILES)
+		if form.is_valid():
+			p = form.save(commit=False)
+			p.user = request.user
+			p.urlhash = id_generator()
+			p.save()
+			messages.info(request, "Processed successfully.")
+			return HttpResponseRedirect('/dashboard/')
+		else:
+		    return render(request, 'dashboard/packages.html', {"form": form})
+	else:
+	    form = AccomodationForm()
+	    args = {'form': form}
+	    return render(request, 'dashboard/packages.html', args)

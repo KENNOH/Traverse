@@ -3,5 +3,6 @@ from . import views
 
 urlpatterns = [
     url(r'^dashboard/add/', views.add, name='add'),
+    url(r'^dashboard/add_packages/', views.packages, name='packages'),
     url(r'^dashboard/', views.dashboard, name='dashboard'), 
 ]

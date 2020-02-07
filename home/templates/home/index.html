@@ -51,7 +51,7 @@
                                         <a class="nav-link" href="#serve">Services</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="packages.html">packages</a>
+                                        <a class="nav-link" href="/view_packages/">packages</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="/register/">Sign Up</a>
@@ -113,10 +113,10 @@
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="hotel" role="tabpanel" aria-labelledby="hotel-tab">
                                 <div class="booking_form">
-                                    <form action="#">
+                                    <form method="POST" action="/filter_packages/">{% csrf_token %}
                                         <div class="form-row">
                                             <div class="form_colum">
-                                                <select class="nc_select">
+                                                <select name="hotels" class="nc_select">
                                                     <option selected>Choose a Hotel </option>
                                                     {% for h in hotels %}
                                                     <option value="{{h.name}}">{{h.name}}</option>
@@ -124,7 +124,7 @@
                                                 </select>
                                             </div>
                                             <div class="form_btn">
-                                                <a href="#" class="btn_1">search</a>
+                                            <input class="btn_1" type="Submit" name="hotels" value="Search" />
                                             </div>
                                         </div>
                                     </form>
@@ -135,29 +135,22 @@
                                     <form action="#">
                                         <div class="form-row">
                                             <div class="form_colum">
-                                                <select class="nc_select">
-                                                    <option selected>Choose a package </option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
-                                                </select>
+                                                <input id="datepicker_3" name="start_date" placeholder="Check in date">
                                             </div>
                                             <div class="form_colum">
-                                                <input id="datepicker_3" placeholder="Check in date">
+                                                <input id="datepicker_4" name="end_date" placeholder="Check out date">
                                             </div>
                                             <div class="form_colum">
-                                                <input id="datepicker_4" placeholder="Check in date">
-                                            </div>
-                                            <div class="form_colum">
-                                                <select class="nc_select">
-                                                    <option selected>Persons </option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
+                                                <select name = "rooms" class="nc_select">
+                                                    <option selected>Rooms </option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
                                                 </select>
                                             </div>
                                             <div class="form_btn">
-                                                <a href="#" class="btn_1">search</a>
+                                                <input class="btn_1" type="Submit" name="packages" value="Search" />
                                             </div>
                                         </div>
                                     </form>
@@ -168,7 +161,7 @@
                                     <form action="#">
                                         <div class="form-row">
                                             <div class="form_colum">
-                                                <select class="nc_select">
+                                                <select name = "places" class="nc_select">
                                                     <option selected>Choose a place </option>
                                                     {% for i in loc %}
                                                     <option value="{{i.name}}">{{i.name}}</option>
@@ -176,7 +169,7 @@
                                                 </select>
                                             </div>
                                             <div class="form_btn">
-                                                <a href="#" class="btn_1">search</a>
+                                                <input class="btn_1" type="Submit" name="places" value="Search" />
                                             </div>
                                         </div>
                                     </form>
@@ -217,15 +210,7 @@
                             </div>
                         </div>
                         <div class="hotel_text_iner">
-                            <h3> <a href="#">{{hotel.name}}</a></h3>
-                            <div class="place_review">
-                                <a href="#"><i class="fas fa-star"></i></a>
-                                <a href="#"><i class="fas fa-star"></i></a>
-                                <a href="#"><i class="fas fa-star"></i></a>
-                                <a href="#"><i class="fas fa-star"></i></a>
-                                <a href="#"><i class="fas fa-star"></i></a>
-                                <span>(210 review)</span>
-                            </div>
+                            <h3> <a href="{% url 'view_package' urlhash=hotel.urlhash %}">{{hotel.name}}</a></h3>
                             <p>{{hotel.location}},Kenya</p>
                             <p>Email: {{hotel.contact_email}}</p>
                             <p>Phone: {{hotel.contact_phone}}</p>

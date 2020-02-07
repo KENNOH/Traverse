@@ -14,6 +14,7 @@ from django.contrib.auth import (
 )
 from django.contrib.auth.models import Group
 from .models import Location, Hotel, Accomodation
+from home.models import Booking
 
 class HotelForm(forms.ModelForm):
     name = forms.CharField(label='Name:', max_length=200, required=True, widget=forms.TextInput(
@@ -45,22 +46,34 @@ class HotelForm(forms.ModelForm):
             Document.save()
         return Document
 
+
+class DateInput(forms.DateTimeInput):
+	input_type = 'date'
+
 class AccomodationForm(forms.ModelForm):
-    name = forms.ModelChoiceField(label="Select Pet type:", required=True, queryset=Hotel.objects.all(), widget=forms.Select(attrs={'class': 'form-control', 'name': 'hotel'}))
-    image = forms.ImageField(label="Attachment:", required=True, widget=forms.ClearableFileInput(
-        attrs={'multiple': False, 'name': 'attachment'}))
-    contact_email = forms.CharField(label='Contact Email:', max_length=200, required=True, widget=forms.TextInput(
-        attrs={'class': 'form-control form-textbox'}))
-    contact_phone = forms.CharField(label='Contact Phone:', max_length=200, required=True,
-                                    widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
-    description = forms.CharField(label="Any Message?:", required=False, max_length=200, widget=forms.Textarea(
-        attrs={'class': 'form-control form-textbox', 'name': 'description', 'rows': '4'}))
-    location = forms.CharField(label='Location:', max_length=200, required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
+    OPTIONS = (
+        ("1", "1"),
+        ("2", "2"),
+        ("3", "3"),
+      	("4", "4"))
+    CHOICES = (
+        ("0","Not Available"),
+        ("1","Available")
+    )
+    rooms = forms.ChoiceField(label="Select number of rooms:", required=True, choices=OPTIONS,widget=forms.Select(attrs={'class': 'form-control', 'name': 'rooms'}))
+    image = forms.ImageField(label="Image:", required=True, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': False, 'name': 'attachment'}))
+    #location = forms.CharField(label='Location:', max_length=200, required=True,widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
+    #people = forms.CharField(label='people:', max_length=200, required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
+    cost = forms.IntegerField(label='Cost:', required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
+    quantity = forms.IntegerField(label='Quantity:', required=True, widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
+    check_in = forms.DateField(label='Available date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
+    check_out = forms.DateField(label='End date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
+    flight_booking = forms.ChoiceField(label="Flight booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'flight_booking'}))
+    car_booking = forms.ChoiceField(label="Car booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'car_booking'}))
+
     class Meta:
         model = Accomodation
-        fields = ('name', 'location', 'contact_email',
-                  'contact_phone','image', 'description')
+        fields = ('hotel','rooms','image','cost','quantity','check_in','check_out','car_booking','flight_booking')
 
     def clean(self, *args, **kwargs):
         # contact_email = self.cleaned_data['contact_email']
@@ -70,6 +83,30 @@ class AccomodationForm(forms.ModelForm):
 
     def save(self, commit=True):
         Document = super(AccomodationForm, self).save(commit=False)
+        if commit:
+            Document.save()
+        return Document
+
+
+class BookingForm(forms.ModelForm):
+    name = forms.CharField(label='Enter Full Names:', max_length=200, required=True, widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
+    contact_email = forms.CharField(label='Contact Email:', max_length=200, required=True, widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
+    contact_phone = forms.CharField(label='Contact Phone:', max_length=200, required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
+    inquiry = forms.CharField(label="Any question?:", required=False, max_length=200, widget=forms.Textarea(attrs={'class': 'form-control form-textbox', 'name': 'description', 'rows': '4'}))
+
+    class Meta:
+        model = Booking
+        fields = ('name','contact_email',
+                  'contact_phone','inquiry')
+
+    def clean(self, *args, **kwargs):
+        # contact_email = self.cleaned_data['contact_email']
+        # if not contact_email:
+        #     raise forms.ValidationError("Please a contact email.")
+        return super(BookingForm, self).clean(*args, **kwargs)
+
+    def save(self, commit=True):
+        Document = super(BookingForm, self).save(commit=False)
         if commit:
             Document.save()
         return Document

@@ -13,10 +13,14 @@ from django.contrib.auth import (
     logout,
 )
 from django.contrib.auth.models import Group
-from .models import Location, Hotel, Accomodation
+from .models import Location, Hotel, Accomodation,Category
 from home.models import Booking
 
 class HotelForm(forms.ModelForm):
+    loc = Location.objects.all()
+    cat = Category.objects.all()
+    category = forms.ModelChoiceField(label="Select item type:", queryset=cat, widget=forms.Select(
+        attrs={'class': 'form-control', 'name': 'category'}))
     name = forms.CharField(label='Name:', max_length=200, required=True, widget=forms.TextInput(
         attrs={'class': 'form-control form-textbox'}))
     image = forms.ImageField(label="Attachment:", required=True, widget=forms.ClearableFileInput(
@@ -27,11 +31,11 @@ class HotelForm(forms.ModelForm):
                                     widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
     description = forms.CharField(label="Any Message?:", required=False, max_length=200, widget=forms.Textarea(
         attrs={'class': 'form-control form-textbox', 'name': 'description', 'rows': '4'}))
-    location = forms.CharField(label='Location:', max_length=200, required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
+    location = forms.ModelChoiceField(label="Select Location:", queryset=loc, widget=forms.Select(
+        attrs={'class': 'form-control', 'name': 'location'}))
     class Meta:
         model = Hotel
-        fields = ('name', 'location', 'contact_email',
+        fields = ('category','name', 'location', 'contact_email',
                   'contact_phone','image', 'description')
 
     def clean(self, *args, **kwargs):
@@ -55,17 +59,22 @@ class AccomodationForm(forms.ModelForm):
         ("1", "1"),
         ("2", "2"),
         ("3", "3"),
-      	("4", "4"))
+      	("4", "4"),
+        ("5", "5"),
+        ("6", "6"),
+        ("7", "7"),
+        ("8", "8"),
+          )
     CHOICES = (
         ("0","Not Available"),
         ("1","Available")
     )
-    rooms = forms.ChoiceField(label="Select number of rooms:", required=True, choices=OPTIONS,widget=forms.Select(attrs={'class': 'form-control', 'name': 'rooms'}))
+    rooms = forms.ChoiceField(label="Select number of rooms per package:", required=True, choices=OPTIONS,widget=forms.Select(attrs={'class': 'form-control', 'name': 'rooms'}))
     image = forms.ImageField(label="Image:", required=True, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': False, 'name': 'attachment'}))
     #location = forms.CharField(label='Location:', max_length=200, required=True,widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
     #people = forms.CharField(label='people:', max_length=200, required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
     cost = forms.IntegerField(label='Cost:', required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
-    quantity = forms.IntegerField(label='Quantity:', required=True, widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
+    quantity = forms.IntegerField(label='Available Number of packages:', required=True, widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
     check_in = forms.DateField(label='Available date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
     check_out = forms.DateField(label='End date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
     flight_booking = forms.ChoiceField(label="Flight booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'flight_booking'}))

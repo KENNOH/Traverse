@@ -13,7 +13,18 @@ class Location(models.Model):
     def __str__(self):
         return self.name
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        return self.name
+
 class Hotel(models.Model):
+    category = models.CharField(max_length=255,default="Hotel")
     name = models.CharField(max_length=255, blank=True, null=True)
     contact_phone = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -32,15 +43,14 @@ d = id_generator()
 
 class Accomodation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE,verbose_name="Belongs to")
     created_at = models.DateTimeField(auto_now_add=True)
     urlhash = models.CharField(max_length=6)
     rooms = models.CharField(max_length=255, blank=True, null=True)
     check_in = models.DateField()
     check_out = models.DateField()
-    #people  = models.IntegerField(blank=True, null=True)
-    #location = models.CharField(max_length=255, blank=True, null=True)
-    quantity = models.IntegerField(blank=True, null=True)
+    quantity = models.IntegerField(
+        blank=True, null=True, verbose_name="Number available")
     cost = models.FloatField(default=0.0)
     status = models.NullBooleanField(max_length=5, default=1, verbose_name="Available")
     image = models.ImageField(upload_to='dashboard', blank=True, null=True)

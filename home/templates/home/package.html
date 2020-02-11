@@ -1,47 +1,41 @@
-{% extends 'home/show.html' %}
-{% load static %}
-{% block content %}
-{% for package in packages %}
+{% extends 'home/show.html' %} {% load static %} {% block content %} {% for package in packages %}
 <style type="text/css">
-                              .img {
-                                max-width: 200px !important;
-                                max-height: 200px !important;
-                              }
-                            </style>
-  <div class="col-lg-4 col-sm-6">
-                    <div class="single_ihotel_list">
-                        <img class="img" src="{{package.image.url}}" alt="">
-                        <div class="hover_text">
-                            <div class="hotel_social_icon">
-                                <ul>
-                                    <li><a href="#"><i class="ti-facebook"></i></a></li>
-                                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                                    <li><a href="#"><i class="ti-linkedin"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class="share_icon">
-                                <i class="ti-share"></i>
-                            </div>
-                        </div>
-                        <div class="hotel_text_iner">
-                            <h3> <a href="/">{{package.hotel}}</a></h3>
-                            <p>Unique package Id: {{package.urlhash}}</p>
-                            <p>Number of rooms: {{package.rooms}} </p>
-                            <p>Quantity: {{package.quantity}}</p>
-                            <p>Cost: {{package.cost}}</p>
-                            <p>Status: {{package.status}}</p>
-                            <p>Car Booking: {{package.car_booking}}</p>
-                            <p>Flight Booking: {{package.flight_booking}}</p>
-                            <p>Available from date: {{package.check_in}}</p>
-                            <p>End date: {{package.check_out}}</p>
-                        </div>
-                        <a href="{% url 'booking' package=package %}">
-                          <center>
-                            <input class="btn btn-warning btn-sm btn-block" type="Submit" value="Book this package" />
-        
-                        </center>
-                        </a>
-                    </div>
-                </div>
-                {% endfor %}
-{% endblock %}
+    .img {
+        max-height: 200px !important;
+    }
+</style>
+<div class="col-lg-4 col-sm-6">
+    <div class="single_ihotel_list">
+        <img class="img" src="{{package.image.url}}" alt="">
+        <div class="hover_text">
+            <div class="hotel_social_icon">
+                <ul>
+                    <li><a href="#"><i class="ti-facebook"></i></a></li>
+                    <li><a href="#"><i class="ti-twitter-alt"></i></a></li>
+                    <li><a href="#"><i class="ti-linkedin"></i></a></li>
+                </ul>
+            </div>
+            <div class="share_icon">
+                <i class="ti-share"></i>
+            </div>
+        </div>
+        <div class="hotel_text_iner">
+            <h3> <a href="/">{{package.hotel}}</a></h3>
+            <h6>Unique package Id: {{package.urlhash}}</h6>
+            <h6>Number of rooms: {{package.rooms}} </h6>
+            <h6>Quantity: {{package.quantity}}</h6>
+            <h6>Cost: {{package.cost}}</h6>
+            <h6>Car Booking: {% if package.car_booking == '0' %} Not available {% else %} Available {% endif %}</h6>
+            <h6>Flight Booking: {% if package.flight_booking == '0' %} Not available {% else %} Available {% endif %}</h6>
+            <h6>Available from date: {{package.check_in}}</h6>
+            <h6>End date: {{package.check_out}}</h6>
+        </div>
+        <a href="{% url 'booking' package=package %}">
+            <center>
+                <input class="btn btn-warning btn-sm btn-block" type="Submit" value="Book this package" />
+
+            </center>
+        </a>
+    </div>
+</div>
+{% endfor %} {% endblock %}

@@ -25,13 +25,10 @@ def view_packages(request):
 
 def filter_packages(request):
 	if request.method == "POST":
-		search_text1 = request.POST['rooms']
-		search_text2 = request.POST['hotels']
-		search_text2 = request.POST['places']
-		search_text3 = request.POST['start_date']
-		search_text4 = request.POST['end_date']
-		packages = Accomodation.objects.all().filter(rooms=search_text1)
-		return render(request, 'home/package.html', {'packages': packages})
+		search_text = request.POST['search_text']
+		hotel = Hotel.objects.all().filter(name=search_text)
+		packages = Accomodation.objects.all().filter(hotel__in=hotel)
+		return render(request, 'home/filter_item.html', {'packages': packages})
 	else:
 		return HttpResponseRedirect('/')
 

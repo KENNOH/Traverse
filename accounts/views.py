@@ -22,7 +22,7 @@ def site(request):
 			password = form.cleaned_data.get("password")
 			user = authenticate(username=username,password=password)
 			login(request, user)
-			if user.groups.filter(name='Hotel Owner').exists():
+			if user.groups.filter(name='Property Owner').exists():
 				return HttpResponseRedirect('/dashboard/')
 			if user.is_staff==True:
 				return HttpResponseRedirect('/admin/')

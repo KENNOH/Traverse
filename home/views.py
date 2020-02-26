@@ -18,9 +18,15 @@ def view_package(request,urlhash):
 	return render(request, 'home/package.html', {'packages': packages})
 
 
+def expand_package(request, urlhash):
+	package = Accomodation.objects.get(urlhash=urlhash)
+	loc = Location.objects.get(name=package.hotel.location)
+	return render(request, 'home/expand_package.html', {'package': package,'loc':loc})
+
 def view_packages(request):
 	packages = Accomodation.objects.all()
-	return render(request, 'home/package.html', {'packages': packages})
+	hotels = Location.objects.all()
+	return render(request, 'home/package.html', {'packages': packages,'hotels':hotels})
 
 
 def filter_packages(request):
@@ -31,8 +37,34 @@ def filter_packages(request):
 		return render(request, 'home/filter_item.html', {'packages': packages})
 	else:
 		return HttpResponseRedirect('/')
+	
+def filt(request):
+	if request.method == "POST":
+		maxi = request.POST['max']
+		mini = request.POST['min']
+		loc = request.POST['loc']
+		hotel = Hotel.objects.all().filter(location=loc)
+		packages = Accomodation.objects.all().filter(cost__range=(mini, maxi)).filter(hotel__in=hotel)
+		hotels = Location.objects.all()
+		return render(request, 'home/package.html', {'packages': packages, 'hotels': hotels})
+	else:
+		return HttpResponseRedirect('/')
+
+
+def filtering_packages(request):
+	if request.method == "POST":
+		loc = request.POST['search_text']
+		packages = Accomodation.objects.all().filter()
+		hotels = Location.objects.all()
+		hotel = Hotel.objects.all().filter(location=loc)
+		packages = Accomodation.objects.all().filter(hotel__in=hotel)
+		return render(request, 'home/package.html', {'packages': packages, 'hotels': hotels})
+	else:
+		return HttpResponseRedirect('/')
 
 def booking(request,package):
+	one = request.POST.get('types')
+	p = Accomodation.objects.get(urlhash=package)
 	if request.method == 'POST':
 		form = BookingForm(request.POST, request.FILES)
 		if form.is_valid():
@@ -41,11 +73,13 @@ def booking(request,package):
 			instance = Accomodation.objects.get(urlhash=package)
 			p.package = instance
 			p.save()
-			messages.info(request, "Booking processed successfully.")
+			messages.info(request, "Booking processed successfully check your phone for Mpesa confirmation and enter pin.")
 			return HttpResponseRedirect('/')
 		else:
-		    return render(request, 'home/booking.html', {"form": form})
+			price = int(one) + int(p.cost)
+			return render(request, 'home/booking.html', {"form": form, 'package': p,'price':price})
 	else:
 	    form = BookingForm()
-	    args = {'form': form}
+	    price = int(one) + int(p.cost)
+	    args = {'form': form,'package':p,'price':price}
 	    return render(request, 'home/booking.html', args)

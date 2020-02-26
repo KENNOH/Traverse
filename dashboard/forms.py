@@ -69,20 +69,26 @@ class AccomodationForm(forms.ModelForm):
         ("0","Not Available"),
         ("1","Available")
     )
+    CHOICES2 = (
+        ("Vip Class", "Vip Class"),
+        ("Business Class", "Business Class"),
+        ("Economy Class", "Economy Class"),
+    )
     rooms = forms.ChoiceField(label="Select number of rooms per package:", required=True, choices=OPTIONS,widget=forms.Select(attrs={'class': 'form-control', 'name': 'rooms'}))
     image = forms.ImageField(label="Image:", required=True, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': False, 'name': 'attachment'}))
-    #location = forms.CharField(label='Location:', max_length=200, required=True,widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
-    #people = forms.CharField(label='people:', max_length=200, required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
     cost = forms.IntegerField(label='Cost:', required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
     quantity = forms.IntegerField(label='Available Number of packages:', required=True, widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
     check_in = forms.DateField(label='Available date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
     check_out = forms.DateField(label='End date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
-    flight_booking = forms.ChoiceField(label="Flight booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'flight_booking'}))
-    car_booking = forms.ChoiceField(label="Car booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'car_booking'}))
+    room_type = forms.ChoiceField(label="Select Room type:", required=True, choices=CHOICES2, widget=forms.Select(
+        attrs={'class': 'form-control', 'name': 'room_type'}))
+    #flight_booking = forms.ChoiceField(label="Flight booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'flight_booking'}))
+    #car_booking = forms.ChoiceField(label="Car booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'car_booking'}))
 
     class Meta:
         model = Accomodation
-        fields = ('hotel','rooms','image','cost','quantity','check_in','check_out','car_booking','flight_booking')
+        fields = ('hotel', 'rooms', 'image', 'cost', 'quantity',
+                  'room_type', 'check_in', 'check_out')
 
     def clean(self, *args, **kwargs):
         # contact_email = self.cleaned_data['contact_email']
@@ -98,15 +104,21 @@ class AccomodationForm(forms.ModelForm):
 
 
 class BookingForm(forms.ModelForm):
+    OPTIONS = (
+        ("Literature", "Literature"),
+        ("Mathematics", "Mathematics"),
+        ("Research Writing", "Research Writing"),
+      	("Statistics", "Statistics"),
+      	("Art", "Art"),)
     name = forms.CharField(label='Enter Full Names:', max_length=200, required=True, widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
     contact_email = forms.CharField(label='Contact Email:', max_length=200, required=True, widget=forms.TextInput(attrs={'class': 'form-control form-textbox'}))
     contact_phone = forms.CharField(label='Contact Phone:', max_length=200, required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
-    inquiry = forms.CharField(label="Any question?:", required=False, max_length=200, widget=forms.Textarea(attrs={'class': 'form-control form-textbox', 'name': 'description', 'rows': '4'}))
-
+    inquiry = forms.CharField(label="Remarks:", required=False, max_length=200, widget=forms.Textarea(attrs={'class': 'form-control form-textbox', 'name': 'description', 'rows': '4'}))
+    
     class Meta:
         model = Booking
         fields = ('name','contact_email',
-                  'contact_phone','inquiry')
+                  'contact_phone', 'inquiry')
 
     def clean(self, *args, **kwargs):
         # contact_email = self.cleaned_data['contact_email']

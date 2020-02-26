@@ -31,6 +31,8 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <script src="{% static 'js/jquery-2.0.0.min.js' %}"></script>
     <script src="{% static 'js/ajax.js' %}"></script>
+    <link href="{% static 'css/bootstrap-toggle.min.css' %}" rel="stylesheet">
+    <script src="{% static 'js/bootstrap-toggle.min.js' %}"></script>
 </head>
 
 <body>
@@ -71,7 +73,15 @@
     <!-- Header part end-->
 
     <!-- banner part start-->
-    {% block content %}
+    {% block content %} {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <ol class="breadcrumb">
+            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}><strong>{{ message }} {{form.errors}}</strong></li>
+        </ol>
+        {% endfor %}
+    </ul>
+    {% endif %}
     <section class="banner_part">
         <div class="container">
             <div class="row align-items-center justify-content-center">
@@ -130,32 +140,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="tab-pane fade" id="tricket" role="tabpanel" aria-labelledby="tricket-tab">
-                                <div class="booking_form">
-                                    <form action="#">
-                                        <div class="form-row">
-                                            <div class="form_colum">
-                                                <input id="datepicker_3" name="start_date" placeholder="Check in date">
-                                            </div>
-                                            <div class="form_colum">
-                                                <input id="datepicker_4" name="end_date" placeholder="Check out date">
-                                            </div>
-                                            <div class="form_colum">
-                                                <select name="rooms" class="nc_select">
-                                                    <option selected>Rooms </option>
-                                                    <option value="1">1</option>
-                                                    <option value="2">2</option>
-                                                    <option value="3">3</option>
-                                                    <option value="4">4</option>
-                                                </select>
-                                            </div>
-                                            <div class="form_btn">
-                                                <input class="btn_1" type="Submit" name="packages" value="Search" />
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+
                             <div class="tab-pane fade" id="place" role="tabpanel" aria-labelledby="place-tab">
                                 <div class="booking_form">
                                     <form action="#">

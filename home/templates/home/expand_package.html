@@ -1,0 +1,35 @@
+{% extends 'home/main.html' %} {% load static %} {% block content %}
+<style type="text/css">
+    .img {
+        max-height: 200px !important;
+    }
+</style>
+<div class="col-lg-4 col-sm-6">
+    <div class="single_ihotel_list">
+        <form method="POST" action="{% url 'booking' package=package.urlhash %}">{% csrf_token %}
+            <img class="img" src="{{package.image.url}}" alt="">
+            <div class="hotel_text_iner">
+                <h3>{{package.hotel}}</h3>
+                <h6>Room Type: {{package.room_type}}</h6>
+                <h6>Unique package Id: {{package.urlhash}}</h6>
+                <h6>Number of rooms: {{package.rooms}} </h6>
+                <h6>Quantity: {{package.quantity}}</h6>
+                <h6>Cost: {{package.cost}}0 Kshs</h6>
+                <h6>Available from date: {{package.check_in}}</h6>
+                <h6>End date: {{package.check_out}}</h6>
+                <h6>Location: {{package.hotel.location}}</h6>
+                <select name="types" id="listing" class="nc_select">
+                <option value="0">Select extra packages to include</option>
+                <option value="10000">Select Hotel plus Car- 10000 (Kshs)</option>
+                <option value="25000">Select Flight plus Hotel - 25000 (Kshs)</option>
+                <option value="35000">Select Hotel plus Flight plus Car - 35000 (Kshs)</option>
+                </select><br>
+            </div>
+            <center>
+                <input class="btn btn-warning btn-sm btn-block" type="Submit" value="Proceed to Book" />
+
+            </center>
+        </form>
+    </div>
+</div>
+{% endblock %}

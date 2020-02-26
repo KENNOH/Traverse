@@ -38,7 +38,7 @@ class AccomodationTable(tables.Table):
 	class Meta:
 		model = Accomodation
 		fields = ('hotel','urlhash', 'rooms', 'quantity', 'cost',
-		          'image', 'status', 'car_booking', 'flight_booking', 'created_at')
+		          'image', 'status', 'room_type', 'created_at')
 
 
 class BookingTable(tables.Table):

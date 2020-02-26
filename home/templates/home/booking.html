@@ -1,47 +1,45 @@
-{% extends 'home/index.html' %}
-{% load static %}
-{% block content %}
+{% extends 'home/index.html' %} {% load static %} {% block content %}
 <div class="container">
-  <div class="featured-post-wrapper">
-    <div class="featured-post-text-wrapper">
-      <div class="row">
-        <div class="col-md-2 col-md-offset-2"></div>
-        <div class="col-md-8 col-md-offset-2">
-          <div class="login-panel panel panel-default">
+    <div class="featured-post-wrapper">
+        <div class="featured-post-text-wrapper">
+            <div class="row">
+                <div class="col-md-2 col-md-offset-2"></div>
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="login-panel panel panel-default">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <center>
+                                    <h6 class="m-0 font-weight-bold text-primary">Create booking for {{package.urlhash}} under {{package.hotel}}</h6>
+                                </center>
+                                <div style="float: right;">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
-            <div class="card shadow mb-4">
-              <div class="card-header py-3">
-                <center>
-                  <h6 class="m-0 font-weight-bold text-primary">Create booking here</h6>
-                </center>
-                <div style="float: right;">
-                </div>
-              </div>
-              <div class="card-body">
-                <div class="table-responsive">
-                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <form method="POST" class="form-horizontal">{% csrf_token %} {{form.name.label}} {{form.name}} {{form.contact_email.label}} {{form.contact_email}}{{form.contact_phone.label}} {{form.contact_phone}} {{form.inquiry.label}} {{form.inquiry}} Total Cost:
+                                            <input type="hidden" name="types" value="{{ price }}" />{{ price}} Kshs
+                                            <p class="bs-component">
+                                                <center>
+                                                    <br>
+                                                    <input class="btn btn-success btn-sm btn-block" type="Submit" value="Send Now!" />
 
-                   <form method="POST" class="form-horizontal">{% csrf_token %}
-                     {{form.as_p}}<br>
-                      <p class="bs-component">
-                        <center>
-                            <input class="btn btn-success btn-sm btn-block" type="Submit" value="Send Now!" />
-        
-                        </center>
-                      </p>
-                      <input type="hidden" name="next" value="{{ next }}" />
-                    </form>
-                  </table>
+                                                </center>
+                                            </p>
+                                            <input type="hidden" name="next" value="{{ next }}" />
+                                        </form>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer small text-muted"></div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <div class="card-footer small text-muted"></div>
+                <div class="col-md-2 col-md-offset-2"></div>
             </div>
-          </div>
         </div>
-        <div class="col-md-2 col-md-offset-2"></div>
-      </div>
     </div>
-  </div>
 </div>
 </div>
 {% endblock %}

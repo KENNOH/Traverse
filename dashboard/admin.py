@@ -4,7 +4,7 @@ from .models import Location, Hotel, Accomodation, Category
 # Register your models here.
 
 class EventModelAdmin(admin.ModelAdmin):
-    list_display = ["name"]
+    list_display = ["name", "flight_availability"]
     list_display_links = ["name"]
     list_filter = []
     list_per_page = 20

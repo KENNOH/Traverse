@@ -9,6 +9,7 @@ def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
 
 class Location(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
+    flight_availability = models.NullBooleanField(max_length=5, default=0)
 
     def __str__(self):
         return self.name
@@ -54,8 +55,9 @@ class Accomodation(models.Model):
     cost = models.FloatField(default=0.0)
     status = models.NullBooleanField(max_length=5, default=1, verbose_name="Available")
     image = models.ImageField(upload_to='dashboard', blank=True, null=True)
-    car_booking = models.CharField(max_length=10, default="0")
-    flight_booking = models.CharField(max_length=10, default="0")
+    room_type = models.CharField(max_length=255, default="Economy Class")
+    #car_booking = models.CharField(max_length=10, default="0")
+    #flight_booking = models.CharField(max_length=10, default="0")
 
 
     def __str__(self):

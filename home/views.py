@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from dashboard.models import Location, Hotel, Accomodation
 from dashboard.views import id_generator
 from dashboard.forms import BookingForm
@@ -68,13 +68,15 @@ def booking(request,package):
 	if request.method == 'POST':
 		form = BookingForm(request.POST, request.FILES)
 		if form.is_valid():
+			total = request.POST.get('total')
+			phone = form.cleaned_data['contact_phone']
 			p = form.save(commit=False)
 			p.urlhash = id_generator()
 			instance = Accomodation.objects.get(urlhash=package)
 			p.package = instance
 			p.save()
-			messages.info(request, "Booking processed successfully check your phone for Mpesa confirmation and enter pin.")
-			return HttpResponseRedirect('/')
+			messages.info(request, "Booking processed successfully.")
+			return render(request, 'home/process_payment.html', {'total': total, 'phone': phone})
 		else:
 			price = int(one) + int(p.cost)
 			return render(request, 'home/booking.html', {"form": form, 'package': p,'price':price})
@@ -83,3 +85,8 @@ def booking(request,package):
 	    price = int(one) + int(p.cost)
 	    args = {'form': form,'package':p,'price':price}
 	    return render(request, 'home/booking.html', args)
+
+def process_payment(request,data):
+	phone = data.get('phone')
+	total = data.get('total') 		
+	return render(request, 'home/process_payment.html', {'total': total,'phone':phone})

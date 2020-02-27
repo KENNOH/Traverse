@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^$', views.site, name='site'), 
     url(r'^view_packages/', views.view_packages, name='view_packages'),
     url(r'^expand_package/(?P<urlhash>[0-9A-Za-z_\-]+)/$',views.expand_package, name='expand_package'),
+    url(r'^process_payment/',views.process_payment, name='process_payment'),
     url(r'^filter_packages/', views.filter_packages, name='filter_packages'),
     url(r'^filter/', views.filt, name='filt'),
     url(r'^filtering_packages/', views.filtering_packages,name='filtering_packages'),

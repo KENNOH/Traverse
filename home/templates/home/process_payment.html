@@ -9,7 +9,7 @@
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <center>
-                                    <h6 class="m-0 font-weight-bold text-primary">Create booking for {{package.urlhash}} under {{package.hotel}}</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Process Payment for booking for {{package.urlhash}} under {{package.hotel}}</h6>
                                 </center>
                                 <div style="float: right;">
                                 </div>
@@ -17,18 +17,12 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-
-                                        <form method="POST" class="form-horizontal">{% csrf_token %} {{form.name.label}} {{form.name}} {{form.contact_email.label}} {{form.contact_email}}{{form.contact_phone.label}} {{form.contact_phone}} {{form.inquiry.label}} {{form.inquiry}} Total Cost:
-                                            <input type="hidden" name="total" value="{{ price }}" />{{ price}} Kshs
-                                            <p class="bs-component">
-                                                <center>
-                                                    <br>
-                                                    <input class="btn btn-success btn-sm btn-block" type="Submit" value="Send Now!" />
-
-                                                </center>
-                                            </p>
-                                            <input type="hidden" name="next" value="{{ next }}" />
-                                        </form>
+                                        <p class="bs-component">
+                                            <center>
+                                                <br>
+                                                <input class="btn btn-success btn-sm btn-block" type="Submit" value="Pay Kshs({{total}})" />
+                                            </center>
+                                        </p>
                                     </table>
                                 </div>
                             </div>

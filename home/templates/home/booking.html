@@ -18,8 +18,25 @@
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
 
-                                        <form method="POST" class="form-horizontal">{% csrf_token %} {{form.name.label}} {{form.name}} {{form.contact_email.label}} {{form.contact_email}}{{form.contact_phone.label}} {{form.contact_phone}} {{form.inquiry.label}} {{form.inquiry}} Total Cost:
-                                            <input type="hidden" name="total" value="{{ price }}" />{{ price}} Kshs
+                                        <form method="POST" class="form-horizontal">{% csrf_token %}
+                                            <h6>Select Extra add on's as you wish:</h6> <select name="types" id="listing" class="nc_select">
+                <option value="0">Select extra packages to include</option>
+                <option value="10000">Select Hotel plus Car- 10000 (Kshs)</option>
+                <option value="25000">Select Flight plus Hotel - 25000 (Kshs)</option>
+                <option value="35000">Select Hotel plus Flight plus Car - 35000 (Kshs)</option>
+                </select><br>
+                                            <select name="rooms" id="listing" class="nc_select">
+                <option value="0">Select Number of rooms</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">10</option>
+                </select><br><br><br><br> {{form.name.label}} {{form.name}} {{form.contact_email.label}} {{form.contact_email}}{{form.contact_phone.label}} {{form.contact_phone}} {{form.inquiry.label}} {{form.inquiry}}
                                             <p class="bs-component">
                                                 <center>
                                                     <br>

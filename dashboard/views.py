@@ -79,6 +79,6 @@ def listings(request):
 @login_required(login_url='/accounts/login/')
 def bookings(request):
 	acc = Accomodation.objects.all().filter(user=request.user)
-	bookings = BookingTable(Booking.objects.all().filter(urlhash__in=acc.values_list('urlhash', flat=True)).order_by('-created_at'))
+	bookings = BookingTable(Booking.objects.all())
 	RequestConfig(request, paginate={"per_page": 20}).configure(bookings)
 	return render(request, 'dashboard/bookings.html', {'bookings': bookings})

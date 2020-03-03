@@ -10,6 +10,15 @@
             <img class="img" src="{{package.image.url}}" alt="">
             <div class="hotel_text_iner">
                 <h3>{{package.hotel}}</h3>
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <ol class="breadcrumb">
+                        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}><strong>{{ message }} {{form.errors}}</strong></li>
+                    </ol>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 <h6>Room Type: {{package.room_type}}</h6>
                 <h6>Unique package Id: {{package.urlhash}}</h6>
                 <h6>Number of rooms: {{package.rooms}} </h6>
@@ -18,17 +27,13 @@
                 <h6>Available from date: {{package.check_in}}</h6>
                 <h6>End date: {{package.check_out}}</h6>
                 <h6>Location: {{package.hotel.location}}</h6>
-                <select name="types" id="listing" class="nc_select">
-                <option value="0">Select extra packages to include</option>
-                <option value="10000">Select Hotel plus Car- 10000 (Kshs)</option>
-                <option value="25000">Select Flight plus Hotel - 25000 (Kshs)</option>
-                <option value="35000">Select Hotel plus Flight plus Car - 35000 (Kshs)</option>
-                </select><br>
             </div>
+            {% if package.quantity > 0 %}
             <center>
                 <input class="btn btn-warning btn-sm btn-block" type="Submit" value="Proceed to Book" />
 
             </center>
+            {% endif %}
         </form>
     </div>
 </div>

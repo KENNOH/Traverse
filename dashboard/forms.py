@@ -18,9 +18,6 @@ from home.models import Booking
 
 class HotelForm(forms.ModelForm):
     loc = Location.objects.all()
-    cat = Category.objects.all()
-    category = forms.ModelChoiceField(label="Select item type:", queryset=cat, widget=forms.Select(
-        attrs={'class': 'form-control', 'name': 'category'}))
     name = forms.CharField(label='Name:', max_length=200, required=True, widget=forms.TextInput(
         attrs={'class': 'form-control form-textbox'}))
     image = forms.ImageField(label="Attachment:", required=True, widget=forms.ClearableFileInput(
@@ -35,7 +32,7 @@ class HotelForm(forms.ModelForm):
         attrs={'class': 'form-control', 'name': 'location'}))
     class Meta:
         model = Hotel
-        fields = ('category','name', 'location', 'contact_email',
+        fields = ('name', 'location', 'contact_email',
                   'contact_phone','image', 'description')
 
     def clean(self, *args, **kwargs):
@@ -74,6 +71,9 @@ class AccomodationForm(forms.ModelForm):
         ("Business Class", "Business Class"),
         ("Economy Class", "Economy Class"),
     )
+    cat = Category.objects.all()
+    category = forms.ModelChoiceField(label="Select item type:", queryset=cat, widget=forms.Select(
+        attrs={'class': 'form-control', 'name': 'category'}))
     rooms = forms.ChoiceField(label="Select number of rooms per package:", required=True, choices=OPTIONS,widget=forms.Select(attrs={'class': 'form-control', 'name': 'rooms'}))
     image = forms.ImageField(label="Image:", required=True, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': False, 'name': 'attachment'}))
     cost = forms.IntegerField(label='Cost:', required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
@@ -87,7 +87,7 @@ class AccomodationForm(forms.ModelForm):
 
     class Meta:
         model = Accomodation
-        fields = ('hotel', 'rooms', 'image', 'cost', 'quantity',
+        fields = ('hotel', 'category', 'rooms', 'image', 'cost', 'quantity',
                   'room_type', 'check_in', 'check_out')
 
     def clean(self, *args, **kwargs):

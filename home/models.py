@@ -13,4 +13,6 @@ class Booking(models.Model):
     inquiry = models.CharField(max_length=255, blank=True, null=True)
     package = models.ForeignKey(Accomodation, on_delete=models.CASCADE)
     status = models.NullBooleanField(max_length=5, default=1, verbose_name="Payment status")
-    inclusives = models.CharField(max_length=255, blank=True, null=True)
+    total = models.FloatField(max_length=255, blank=True, null=True)
+    status = models.NullBooleanField(max_length=5, default=0, verbose_name="Payment status")
+    mpesa_receipt_code = models.CharField(max_length=255, blank=True, null=True)

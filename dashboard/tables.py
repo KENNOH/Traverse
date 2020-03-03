@@ -20,7 +20,7 @@ class ListingTable(tables.Table):
 
 	class Meta:
 		model = Hotel
-		fields = ('category', 'name', 'location', 'contact_phone',
+		fields = ( 'name', 'location', 'contact_phone',
 		          'contact_email', 'image', 'urlhash', 'description','created_at')
 
 

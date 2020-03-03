@@ -9,7 +9,7 @@
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
                                 <center>
-                                    <h6 class="m-0 font-weight-bold text-primary">Process Payment for booking for {{package.urlhash}} under {{package.hotel}}</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Process Payment for booking for {{phone}}</h6>
                                 </center>
                                 <div style="float: right;">
                                 </div>
@@ -17,12 +17,26 @@
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                        <p class="bs-component">
-                                            <center>
-                                                <br>
-                                                <input class="btn btn-success btn-sm btn-block" type="Submit" value="Pay Kshs({{total}})" />
-                                            </center>
-                                        </p>
+                                        {% if messages %}
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                            <ol class="breadcrumb">
+                                                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}><strong>{{ message }} {{form.errors}}</strong></li>
+                                            </ol>
+                                            {% endfor %}
+                                        </ul>
+                                        {% endif %}
+                                        <form action="/stk_initiate/" method="POST">{% csrf_token %}
+                                            <input type="hidden" name="phone" value="{{phone}}" />
+                                            <input type="hidden" name="cost" value="{{total}}" />
+                                            <input type="hidden" name="id" value="{{id}}" />
+                                            <p class="bs-component">
+                                                <center>
+                                                    <br>
+                                                    <input class="btn btn-success btn-sm btn-block" type="Submit" value="Pay Kshs({{total}})" />
+                                                </center>
+                                            </p>
+                                        </form>
                                     </table>
                                 </div>
                             </div>

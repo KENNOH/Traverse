@@ -13,6 +13,11 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Add Hotel Profile Form</h6>
                                 </center>
                                 <div style="float: right;">
+                                    {% if pk %}
+                                    <a href="{% url 'delete_hotel' pk=pk %}">
+                                        <input class="btn btn-danger btn-sm btn-block" type="Submit" value="Delete">
+                                    </a>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="card-body">
@@ -23,7 +28,9 @@
                                             <p class="bs-component"></p>
                                             <div style="float: right;">
                                                 <p class="text-danger">Fields marked by red * are required</p>
-                                            </div><br><br>
+
+
+                                            </div>
 
 
 

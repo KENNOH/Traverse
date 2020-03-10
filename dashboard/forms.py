@@ -52,16 +52,6 @@ class DateInput(forms.DateTimeInput):
 	input_type = 'date'
 
 class AccomodationForm(forms.ModelForm):
-    OPTIONS = (
-        ("1", "1"),
-        ("2", "2"),
-        ("3", "3"),
-      	("4", "4"),
-        ("5", "5"),
-        ("6", "6"),
-        ("7", "7"),
-        ("8", "8"),
-          )
     CHOICES = (
         ("0","Not Available"),
         ("1","Available")
@@ -71,24 +61,31 @@ class AccomodationForm(forms.ModelForm):
         ("Business Class", "Business Class"),
         ("Economy Class", "Economy Class"),
     )
+    CHOICES3 = (
+        ("Wi-FI", "Wi-FI"),
+        ("Room Service", "Room Service"),
+        ("Television and Home sound system", "Television and Home sound system"),
+        ("Massage", "Massage"),
+        ("Free drinks", "Free drinks"),
+    )
     cat = Category.objects.all()
     category = forms.ModelChoiceField(label="Select item type:", queryset=cat, widget=forms.Select(
         attrs={'class': 'form-control', 'name': 'category'}))
-    rooms = forms.ChoiceField(label="Select number of rooms per package:", required=True, choices=OPTIONS,widget=forms.Select(attrs={'class': 'form-control', 'name': 'rooms'}))
+    rooms = forms.CharField(label="Enter number of rooms per package:", required=True,widget=forms.NumberInput(attrs={'class': 'form-control', 'name': 'rooms'}))
     image = forms.ImageField(label="Image:", required=True, widget=forms.ClearableFileInput(attrs={'class': 'form-control', 'multiple': False, 'name': 'attachment'}))
     cost = forms.IntegerField(label='Cost:', required=True,widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
-    quantity = forms.IntegerField(label='Available Number of packages:', required=True, widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
+    #quantity = forms.IntegerField(label='Available Number of packages:', required=True, widget=forms.NumberInput(attrs={'class': 'form-control form-textbox'}))
     check_in = forms.DateField(label='Available date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
     check_out = forms.DateField(label='End date:', required=True,widget=DateInput(attrs={'class': 'form-control form-textbox'}))
-    room_type = forms.ChoiceField(label="Select Room type:", required=True, choices=CHOICES2, widget=forms.Select(
-        attrs={'class': 'form-control', 'name': 'room_type'}))
+    room_type = forms.ChoiceField(label="Select Room type:", required=True, choices=CHOICES2, widget=forms.Select(attrs={'class': 'form-control', 'name': 'room_type'}))
+    amenities = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple, choices=CHOICES3)
     #flight_booking = forms.ChoiceField(label="Flight booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'flight_booking'}))
     #car_booking = forms.ChoiceField(label="Car booking status:", required=True, choices=CHOICES, widget=forms.Select(attrs={'class': 'form-control', 'name': 'car_booking'}))
 
     class Meta:
         model = Accomodation
-        fields = ('hotel', 'category', 'rooms', 'image', 'cost', 'quantity',
-                  'room_type', 'check_in', 'check_out')
+        fields = ('hotel', 'category', 'rooms', 'image', 'cost',
+                  'room_type','amenities','check_in', 'check_out')
 
     def clean(self, *args, **kwargs):
         # contact_email = self.cleaned_data['contact_email']

@@ -21,17 +21,18 @@
                 {% endif %}
                 <h6>Room Type: {{package.room_type}}</h6>
                 <h6>Unique package Id: {{package.urlhash}}</h6>
+                {% if package.rooms > 0 %}
                 <h6>Number of rooms: {{package.rooms}} </h6>
-                <h6>Quantity: {{package.quantity}}</h6>
                 <h6>Cost: {{package.cost}}0 Kshs</h6>
-                <h6>Available from date: {{package.check_in}}</h6>
+                {% else %}
+                <strong><h6>All booked!</h6></strong> {% endif %}
+                <h6>Amenities: {{package.amenities}}</h6>
                 <h6>End date: {{package.check_out}}</h6>
                 <h6>Location: {{package.hotel.location}}</h6>
             </div>
-            {% if package.quantity > 0 %}
+            {% if package.rooms > 0 %}
             <center>
                 <input class="btn btn-warning btn-sm btn-block" type="Submit" value="Proceed to Book" />
-
             </center>
             {% endif %}
         </form>

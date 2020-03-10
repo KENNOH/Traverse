@@ -46,7 +46,7 @@ class Accomodation(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE,verbose_name="Belongs to")
     created_at = models.DateTimeField(auto_now_add=True)
     urlhash = models.CharField(max_length=6)
-    rooms = models.CharField(max_length=255, blank=True, null=True)
+    rooms = models.IntegerField( blank=True, null=True)
     check_in = models.DateField()
     check_out = models.DateField()
     quantity = models.IntegerField(blank=True, null=True, verbose_name="Number available")
@@ -55,6 +55,7 @@ class Accomodation(models.Model):
     image = models.ImageField(upload_to='dashboard', blank=True, null=True)
     room_type = models.CharField(max_length=255, default="Economy Class")
     category = models.CharField(max_length=255, default="Hotel")
+    amenities = models.CharField(max_length=255, default="WI-Fi")
     #car_booking = models.CharField(max_length=10, default="0")
     #flight_booking = models.CharField(max_length=10, default="0")
 

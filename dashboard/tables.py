@@ -10,8 +10,7 @@ from home.models import Booking
 class ListingTable(tables.Table):
 	#edit = tables.LinkColumn('accept',args=[A('pk')],verbose_name="Action",orderable=False,empty_values=())
 	#editable =  CheckBoxColumnWithName(verbose_name="Select", accessor="pk")
-	#urlhash = tables.LinkColumn('service_expand', args=[A(
-	#	'pk')], verbose_name="Reference Code", orderable=True, empty_values=())
+	urlhash = tables.LinkColumn('hotel_expand', args=[A('pk')], verbose_name="Reference Code", orderable=True, empty_values=())
 	# def render_edit(self,record):
 	# 	if Document.objects.values_list('status',flat=True).get(order_number=record.pk)==False:
 	# 		return format_html('<a href='+reverse("accept", args=[record.pk])+'><button type="button" class="form-control btn-success">Accept</button></a>')
@@ -20,15 +19,14 @@ class ListingTable(tables.Table):
 
 	class Meta:
 		model = Hotel
-		fields = ( 'name', 'location', 'contact_phone',
-		          'contact_email', 'image', 'urlhash', 'description','created_at')
+		fields = ('urlhash','name', 'location', 'contact_phone',
+		          'contact_email', 'image', 'description','created_at')
 
 
 class AccomodationTable(tables.Table):
 	#edit = tables.LinkColumn('accept',args=[A('pk')],verbose_name="Action",orderable=False,empty_values=())
 	#editable =  CheckBoxColumnWithName(verbose_name="Select", accessor="pk")
-	#urlhash = tables.LinkColumn('service_expand', args=[A(
-	#	'pk')], verbose_name="Reference Code", orderable=True, empty_values=())
+	urlhash = tables.LinkColumn('package_expand', args=[A('pk')], verbose_name="Reference Code", orderable=True, empty_values=())
 	# def render_edit(self,record):
 	# 	if Document.objects.values_list('status',flat=True).get(order_number=record.pk)==False:
 	# 		return format_html('<a href='+reverse("accept", args=[record.pk])+'><button type="button" class="form-control btn-success">Accept</button></a>')
@@ -37,8 +35,8 @@ class AccomodationTable(tables.Table):
 
 	class Meta:
 		model = Accomodation
-		fields = ('hotel','urlhash', 'rooms', 'quantity', 'cost',
-		          'image', 'status', 'room_type', 'created_at')
+		fields = ('urlhash', 'hotel', 'rooms', 'cost',
+		          'image', 'status', 'room_type','amenities', 'created_at')
 
 
 class BookingTable(tables.Table):
@@ -54,4 +52,6 @@ class BookingTable(tables.Table):
 
 	class Meta:
 		model = Booking
-		
+		fields = ('urlhash', 'name', 'contact_phone', 'contact_email', 'inquiry', 'package',
+		          'total', 'status', 'mpesa_receipt_code', 'created_at')
+

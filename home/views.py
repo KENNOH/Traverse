@@ -96,6 +96,10 @@ def booking(request,package):
 					f = form.save(commit=False)
 					f.urlhash = id_generator()
 					instance = Accomodation.objects.get(urlhash=package)
+					new_p = instance.cost - float(bal)
+					instance.rooms= p.rooms-int(rooms)
+					instance.cost= new_p
+					instance.save()
 					f.package = instance
 					f.total = bal + int(types)
 					f.save()
@@ -106,6 +110,8 @@ def booking(request,package):
 				f = form.save(commit=False)
 				f.urlhash = id_generator()
 				instance = Accomodation.objects.get(urlhash=package)
+				instance.rooms = 0
+				instance.save()
 				f.package = instance
 				f.total = int(p.cost) + int(types)
 				f.save()
